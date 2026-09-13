@@ -122,17 +122,17 @@ export const DeviceContainer: React.FC<DeviceContainerProps> = ({
   };
 
   // Responsive scale to keep device comfortably framed on mobile or desktop
-  const [scale, setScale] = useState<number>(1);
+  const [scale, setScale] = useState<number>(0.84);
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
       if (w < 640) {
-        setScale(Math.min(w / 440, (h - 260) / panelHeight, 0.75));
+        setScale(Math.min(w / 440, (h - 280) / panelHeight, 0.62));
       } else if (w < 1024) {
-        setScale(Math.min(w / 860, (h - 240) / panelHeight, 0.9));
+        setScale(Math.min(w / 860, (h - 280) / panelHeight, 0.75));
       } else {
-        setScale(Math.min(1.05, (h - 220) / panelHeight));
+        setScale(Math.min(0.84, (h - 300) / panelHeight));
       }
     };
     handleResize();
@@ -142,7 +142,7 @@ export const DeviceContainer: React.FC<DeviceContainerProps> = ({
 
   return (
     <div
-      className="relative w-full h-full flex items-center justify-center select-none overflow-hidden touch-none"
+      className="relative w-full h-[600px] flex items-center justify-center select-none touch-none"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -159,16 +159,20 @@ export const DeviceContainer: React.FC<DeviceContainerProps> = ({
 
       {/* 3D Perspective Stage */}
       <div
-        className="perspective-stage preserve-3d flex items-center justify-center transition-transform duration-100"
+        className="perspective-stage preserve-3d flex items-center justify-center"
         style={{
+          width: `${panelWidth * 2}px`,
+          height: `${panelHeight}px`,
           transform: `scale(${scale})`,
         }}
       >
         {/* Device Assembly Anchor */}
         {/* Requirement: "Keep the device centered throughout the fold." */}
         <div
-          className="relative preserve-3d transition-transform"
+          className="relative preserve-3d"
           style={{
+            width: `${panelWidth * 2}px`,
+            height: `${panelHeight}px`,
             transform: `
               rotateX(${pitch}deg)
               rotateY(${yaw}deg)

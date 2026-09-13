@@ -195,7 +195,7 @@ export function App() {
       </header>
 
       {/* Main 3D Interactive Stage Area */}
-      <main className="relative flex-1 w-full flex items-center justify-center my-auto min-h-[580px]">
+      <main className="relative flex-1 w-full flex items-center justify-center my-auto min-h-[600px] h-[600px]">
         <DeviceContainer
           timelineState={timelineState}
           finish={activeFinishConfig}

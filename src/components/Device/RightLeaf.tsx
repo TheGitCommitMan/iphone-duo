@@ -49,10 +49,11 @@ export const RightLeaf: React.FC<RightLeafProps> = ({
     <div
       className="absolute top-0 preserve-3d"
       style={{
-        left: '0px', // Left edge anchors to hinge (x = 0)
+        left: `${panelWidth}px`, // Anchors from x = panelWidth to x = panelWidth * 2
         width: `${panelWidth}px`,
         height: `${panelHeight}px`,
         transformOrigin: 'left center',
+        transform: 'translateZ(0px)',
         zIndex: 10,
       }}
     >
@@ -92,6 +93,7 @@ export const RightLeaf: React.FC<RightLeafProps> = ({
           borderRadius: `${innerRadius}px ${bezelRadius - 6}px ${bezelRadius - 6}px ${innerRadius}px`,
           background: isLocked ? '#000' : currentWp.gradient,
           boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 0 8px rgba(0,0,0,0.8)',
+          transform: 'translateZ(4px)',
         }}
       >
         {/* Bezel Lip Specular Reflection */}
@@ -135,7 +137,7 @@ export const RightLeaf: React.FC<RightLeafProps> = ({
         style={{
           borderRadius: `${innerRadius}px ${bezelRadius}px ${bezelRadius}px ${innerRadius}px`,
           background: finish.chassisColor,
-          transform: 'rotateY(180deg) translateZ(1px)',
+          transform: 'translateZ(-2px) rotateY(180deg)',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
           boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',

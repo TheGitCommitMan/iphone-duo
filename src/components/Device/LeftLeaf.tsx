@@ -54,15 +54,14 @@ export const LeftLeaf: React.FC<LeftLeafProps> = ({
 }) => {
   const { panelWidth, panelHeight, bezelRadius, innerRadius } = DEVICE_DIMENSIONS;
 
-  // The LEFT half folds toward the RIGHT half.
-  // Pivot is on its right edge (x = panelWidth, next to the hinge at x = 0).
-  // Rotation angle around Y:
+  // The LEFT half folds toward the RIGHT half (forward towards user).
+  // In screen space (+Y down), negative Y rotation swings forward into +Z.
   // At 180° (open): foldAngle = 0° (flat).
-  // At 90° (halfway): foldAngle = +90° (swings forward into +Z).
-  // At 0° (closed): foldAngle = +180° (folds flat onto right leaf).
-  const foldAngle = 180 - angle;
-  // Offset in Z to prevent mesh overlap when completely closed
-  const zOffset = (1 - openProgress) * 10;
+  // At 90° (halfway): foldAngle = -90° (swings forward into +Z).
+  // At 0° (closed): foldAngle = -180° (folds flat onto the front of right leaf).
+  const foldAngle = -(180 - angle);
+  // Offset in Z to sit cleanly in front of right leaf when closed
+  const zOffset = (1 - openProgress) * 12;
 
   const currentWp = WALLPAPERS.find((w) => w.id === wallpaper) || WALLPAPERS[0];
 
@@ -70,17 +69,17 @@ export const LeftLeaf: React.FC<LeftLeafProps> = ({
     <div
       className="absolute top-0 preserve-3d"
       style={{
-        right: '0px', // Right edge anchors to hinge (x = 0)
+        left: '0px', // Anchors from x = 0 to x = panelWidth (hinge is at right edge)
         width: `${panelWidth}px`,
         height: `${panelHeight}px`,
         transformOrigin: 'right center',
-        transform: `rotateY(${foldAngle}deg) translateZ(${zOffset}px)`,
-        zIndex: foldAngle > 90 ? 30 : 20,
+        transform: `translateZ(${zOffset}px) rotateY(${foldAngle}deg)`,
+        zIndex: foldAngle < -90 ? 35 : 20,
       }}
     >
       {/* 3D Chassis Body (Outer Titanium Shell & Thickness) */}
       <div
-        className="absolute inset-0 rounded-l-[38px] shadow-2xl border border-black/30"
+        className="absolute inset-0 shadow-2xl border border-black/30"
         style={{
           background: finish.railGradient,
           borderRadius: `${bezelRadius}px ${innerRadius}px ${innerRadius}px ${bezelRadius}px`,
@@ -116,6 +115,7 @@ export const LeftLeaf: React.FC<LeftLeafProps> = ({
           borderRadius: `${bezelRadius - 6}px ${innerRadius}px ${innerRadius}px ${bezelRadius - 6}px`,
           background: isLocked ? '#000' : currentWp.gradient,
           boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 0 8px rgba(0,0,0,0.8)',
+          transform: 'translateZ(4px)',
         }}
       >
         {/* Screen Bezel Lip Reflection */}
@@ -191,7 +191,7 @@ export const LeftLeaf: React.FC<LeftLeafProps> = ({
         style={{
           borderRadius: `${bezelRadius}px ${innerRadius}px ${innerRadius}px ${bezelRadius}px`,
           background: finish.chassisColor,
-          transform: 'rotateY(180deg) translateZ(2px)',
+          transform: 'translateZ(-2px) rotateY(180deg)',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
           boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',

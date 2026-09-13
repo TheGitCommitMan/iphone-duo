@@ -13,7 +13,7 @@ export const HingeSpine: React.FC<HingeSpineProps> = ({
   openProgress,
   hingeShadow,
 }) => {
-  const { hingeWidth, panelHeight } = DEVICE_DIMENSIONS;
+  const { hingeWidth, panelHeight, panelWidth } = DEVICE_DIMENSIONS;
 
   // When open (openProgress = 1), the hinge is flattened and minimal.
   // When closed (openProgress = 0), the spine is visible as a curved cylindrical hinge barrel.
@@ -23,7 +23,7 @@ export const HingeSpine: React.FC<HingeSpineProps> = ({
     <div
       className="absolute top-0 bottom-0 pointer-events-none z-30 preserve-3d"
       style={{
-        left: `-${hingeWidth / 2}px`,
+        left: `${panelWidth - hingeWidth / 2}px`,
         width: `${hingeWidth}px`,
         height: `${panelHeight}px`,
         transformStyle: 'preserve-3d',
